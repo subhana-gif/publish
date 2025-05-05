@@ -23,12 +23,11 @@ const Dashboard: React.FC = () => {
   };
 
   const handleLogout = () => {
-    // Add your logout logic here
     console.log('Logging out...');
-    // After logout, redirect to login page
-    navigateTo('/');
+    localStorage.removeItem('token'); 
+    navigateTo('/'); 
   };
-
+  
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
   };
