@@ -395,7 +395,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
             <div className="flex items-center">
             {articles[0].author?.profileImage ? (
     <img 
-      src={articles[0].author.profileImage && `http://localhost:5000${articles[0].author.profileImage}`} 
+      src={articles[0].author.profileImage && `https://publish-read.duckdns.org${articles[0].author.profileImage}`} 
       alt="Author" 
       className="h-8 w-8 rounded-full mr-3 object-cover" 
     />
@@ -582,7 +582,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
                 <div className="flex items-center mb-4 pb-3 border-b border-gray-200">
                 {articles[0].author?.profileImage ? (
     <img 
-      src={articles[0].author.profileImage && `http://localhost:5000${articles[0].author.profileImage}`} 
+      src={articles[0].author.profileImage && `https://publish-read.duckdns.org${articles[0].author.profileImage}`} 
       alt="Author" 
       className="h-8 w-8 rounded-full mr-3 object-cover" 
     />
