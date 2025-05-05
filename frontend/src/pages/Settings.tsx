@@ -423,7 +423,7 @@ const Settings = () => {
         <img 
           className="h-20 w-20 object-cover rounded-full border-2 border-gray-300"
           src={imagePreview || 
-            (userData?.profileImage && `http://localhost:5000${userData.profileImage}`)  || '/default-profile.png'} 
+            (userData?.profileImage && `https://publish-read.duckdns.org${userData.profileImage}`)  || '/default-profile.png'} 
           alt="Current profile"
         />
       </div>
