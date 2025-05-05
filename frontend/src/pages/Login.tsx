@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../services/api';
 
@@ -40,7 +40,7 @@ const Login: React.FC = () => {
         
       const response = await login(loginData);
       if (response.success) {
-        navigate('/dashboard');
+        navigate('/dashboard', { replace: true });
       } else {
         setError(response.error || 'Login failed. Please check your credentials.');
       }
@@ -56,6 +56,14 @@ const Login: React.FC = () => {
     setIdentifier('');
     setError('');
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, []);
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
