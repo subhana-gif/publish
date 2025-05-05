@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Pencil, Trash, Eye, ThumbsUp, ThumbsDown, UserX, ChevronLeft, ChevronRight } from "lucide-react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   getUserData, 
   getUserArticles, 
@@ -285,22 +285,25 @@ export default function UserDashboard() {
         </h1>
       </div>
 
-      <div className="flex items-center">
-        {user?.profileImage ? (
-          <img 
-            src={`https://publish-read.duckdns.org${user.profileImage}`} 
-            alt="Profile" 
-            className="h-10 w-10 rounded-full" 
-          />
-        ) : (
-          <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
-            {user?.firstName.charAt(0)}{user?.lastName.charAt(0)}
-          </div>
-        )}
-        <span className="ml-3 font-medium text-gray-900">
-          {user?.firstName} {user?.lastName}
-        </span>
+
+<div className="flex items-center">
+  <Link to="/settings" className="flex items-center">
+    {user?.profileImage ? (
+      <img 
+        src={`https://publish-read.duckdns.org${user.profileImage}`} 
+        alt="Profile" 
+        className="h-10 w-10 rounded-full" 
+      />
+    ) : (
+      <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+        {user?.firstName.charAt(0)}{user?.lastName.charAt(0)}
       </div>
+    )}
+    <span className="ml-3 font-medium text-gray-900">
+      {user?.firstName} {user?.lastName}
+    </span>
+  </Link>
+</div>
     </div>
   </div>
 </header>
