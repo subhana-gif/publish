@@ -18,13 +18,14 @@ const MultiStepRegister = () => {
     profileImage: null,
     preferences: [] as string[],
   });
-  const [errors, setErrors] = useState({});
-  // Update the state type
+  type FormErrors = Partial<Record<keyof typeof form, string>>;
+  const [errors, setErrors] = useState<FormErrors>({});
+    // Update the state type
   const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null);
 
   const [registrationComplete, setRegistrationComplete] = useState(false);
   const navigate = useNavigate();
-
+  
   const validateStep1 = () => {
     const newErrors = {};
     
