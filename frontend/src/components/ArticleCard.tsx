@@ -338,16 +338,12 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
     <div className="md:flex">
       {/* Image Section */}
       <div className="md:flex-shrink-0 md:w-2/5 relative">
-        {articles[0].images && articles[0].images.length > 0 ? (
+        {articles[0].images &&  (
           <img 
-            src={`https://publish-read.duckdns.org/uploads/${articles[0].images[0]}`} 
+            src={`https://publish-read.duckdns.org/uploads/${articles[0].images}`} 
             alt={articles[0].title}
             className="h-56 w-full object-cover md:h-full"
           />
-        ) : (
-          <div className="h-56 md:h-full w-full bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-400">No image available</span>
-          </div>
         )}
         <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/50 to-transparent w-full p-4">
           <span className="text-white text-sm font-medium">{articles[0].category}</span>
@@ -461,19 +457,15 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
               className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300 cursor-pointer"
               onClick={() => openArticleModal(article)}
             >
-              {article.images && article.images.length > 0 ? (
+              {article.images && (
                 <div className="h-40 overflow-hidden">
                   <img 
-                    src={`https://publish-read.duckdns.org/uploads/${article.images[0]}`} 
+                    src={`https://publish-read.duckdns.org/uploads/${article.images}`} 
                     alt={article.title}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-              ) : (
-                <div className="h-40 bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500 text-sm">No image</span>
-                </div>
-              )}
+              ) }
               
               <div className="p-3">
                 <div className="flex items-center text-xs text-gray-500 mb-1">
@@ -557,9 +549,9 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
             </div>
             
             <div className="overflow-y-auto flex-grow">
-              {selectedArticle.images && selectedArticle.images.length > 0 && (
+              {selectedArticle.images && (
                 <img 
-                  src={`https://publish-read.duckdns.org/uploads/${selectedArticle.images[0]}`} 
+                  src={`https://publish-read.duckdns.org/uploads/${selectedArticle.images}`} 
                   alt={selectedArticle.title}
                   className="w-full h-64 object-cover"
                 />
