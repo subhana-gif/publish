@@ -258,7 +258,7 @@ export default function UserDashboard() {
     if (image.startsWith('http')) {
       return image;
     }
-    return `http://localhost:5000/uploads/${image}`;
+    return `https://publish-read.duckdns.org/uploads/${image}`;
   };
 
   return (

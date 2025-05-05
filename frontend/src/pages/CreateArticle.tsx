@@ -102,7 +102,7 @@ const CreateArticle: React.FC = () => {
       const token = localStorage.getItem('token');
   
       const response = await axios.post(
-        'http://localhost:5000/api/articles/create',
+        'https://publish-read.duckdns.org/api/articles/create',
         formData,
         {
           headers: {
