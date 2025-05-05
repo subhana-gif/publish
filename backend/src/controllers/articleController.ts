@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import Article from '../models/article';
 import User from '../models/user';
-import { Multer } from 'multer';
 import path from 'path';
 import { Types } from 'mongoose';  // Add this import at the top
 const fs = require('fs').promises;
@@ -10,6 +9,12 @@ interface MulterRequest extends Request {
   files?: Express.Multer.File[];
 }
 
+interface UpdateArticleBody {
+  title: string;
+  description: string;
+  category: string;
+  tags: string | string[];
+}
 
 export const createArticle = async (req: MulterRequest, res: Response) => {
   const { title, description, category, tags } = req.body;
@@ -55,12 +60,13 @@ export const getUserArticles = async (req: Request, res: Response) => {
 
 export const updateArticle = async (req: Request, res: Response) => {
   try {
-    const { title, description, category, tags } = req.body;
+    const { title, description, category, tags }: UpdateArticleBody = req.body;
     const articleId = req.params.id;
-    
+
     if (!req.user?.id) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
+
     const userId = req.user.id;
 
     // Find and verify article
@@ -70,27 +76,27 @@ export const updateArticle = async (req: Request, res: Response) => {
     }
 
     // Process tags
-    const tagsArray = typeof tags === 'string' ? 
-      tags.split(',').map(tag => tag.trim()) : 
-      tags;
+    const tagsArray = Array.isArray(tags) ? tags : tags.split(',').map((tag: string) => tag.trim());
 
-    // Handle images - keep existing unless new ones are uploaded
-    let images = [...article.images];
-    if (req.files && Array.isArray(req.files)) {
-      // Replace all images if new ones are uploaded
-      images = req.files.map(file => `/uploads/${file.filename}`);
+    // Handle image (store single image or keep the original if none is uploaded)
+    let image = article.images; // Default to existing image if no new one is uploaded
+
+    if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+      // If new image uploaded, take the first one
+      image = `/uploads/${req.files[0].filename}`;
     }
 
-    // Update article
-    article.title = title || article.title;
-    article.description = description || article.description;
-    article.category = category || article.category;
-    article.tags = tagsArray || article.tags;
-    article.images = images.length > 0 ? images[0] : '';
-    
+    // Update article fields only if new data is provided
+    article.title = title ?? article.title;
+    article.description = description ?? article.description;
+    article.category = category ?? article.category;
+    article.tags = tagsArray.length > 0 ? tagsArray : article.tags;
+    article.images = image; // Only store one image path
+
     await article.save();
     res.json(article);
   } catch (error: any) {
+    console.error('Error updating article:', error); // Log error for debugging
     res.status(400).json({ error: error.message });
   }
 };

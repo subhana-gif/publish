@@ -190,10 +190,10 @@ export default function UserDashboard() {
       formDataForUpdate.append('tags', formData.tags.split(",").map(tag => tag.trim()).join(","));
       
       // Append new files
-      uploadFiles.forEach(file => {
-        formDataForUpdate.append('images', file);
-      });
-      
+      if (uploadFiles.length > 0) {
+        formDataForUpdate.append('images', uploadFiles[0]); // Only send the first image
+      }
+            
       // Make the request
       const updatedArticle = await updateArticle(currentArticle._id, formDataForUpdate);
       
@@ -252,10 +252,7 @@ export default function UserDashboard() {
     if (image.startsWith('blob:')) {
       return image; // For preview images
     }
-    // For server images, check if it already has the full URL
-    if (image.startsWith('http')) {
-      return image;
-    }
+   
     return `https://publish-read.duckdns.org/uploads/${image}`;
   };
 
