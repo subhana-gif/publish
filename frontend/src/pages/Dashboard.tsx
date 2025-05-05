@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Plus, Settings, LogOut, Search, FileText } from 'lucide-react';
 import ArticlesPage from '../components/ArticleCard';
+import { useNavigate } from 'react-router-dom';
+
 
 const Dashboard: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-
+  const navigate = useNavigate(); 
   // Simple navigation function that works in browser environments
   const navigateTo = (path: string) => {
     window.location.href = path;
@@ -25,7 +27,7 @@ const Dashboard: React.FC = () => {
   const handleLogout = () => {
     console.log('Logging out...');
     localStorage.removeItem('token'); 
-    navigateTo('/'); 
+    navigate('/', { replace: true }); 
   };
   
   const handleSearch = (e: React.FormEvent) => {
