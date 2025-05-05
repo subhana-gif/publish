@@ -17,7 +17,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 const corsOptions = {
   origin: 'https://publish-eosin.vercel.app', // Allow frontend domain
-  methods: ['GET', 'POST'], // Allowed HTTP methods
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
 };
 

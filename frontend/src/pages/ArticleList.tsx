@@ -294,7 +294,7 @@ export default function UserDashboard() {
       <div className="flex items-center">
         {user?.profileImage ? (
           <img 
-            src={`http://localhost:5000${user.profileImage}`} 
+            src={`https://publish-read.duckdns.org${user.profileImage}`} 
             alt="Profile" 
             className="h-10 w-10 rounded-full" 
           />
