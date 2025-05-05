@@ -12,8 +12,10 @@ export const registerUser = async (req: Request, res: Response) => {
       phone,
       dob,
       password,
-      preferences
     } = req.body;
+
+    const preferences = JSON.parse(req.body.preferences || '[]');
+
 
     // Basic field validation
     if (!firstName || !lastName || !email || !phone || !dob || !password) {
