@@ -87,9 +87,11 @@ router.get('/user', verifyToken, async (req: Request, res: Response, next: NextF
 });
 
 // Update an article
-router.put('/:id/update', verifyToken, upload.single('images'), async (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id/update', verifyToken, upload.single('image'), async (req: Request, res: Response, next: NextFunction) => {
     try {
-        await updateArticle(req, res);
+        // Type assertion to handle Multer request type
+        const multerRequest = req as Request & { files: Express.Multer.File[] };
+        await updateArticle(multerRequest, res);
     } catch (error) {
         next(error);
     }

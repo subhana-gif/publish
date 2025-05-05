@@ -57,8 +57,7 @@ export const getUserArticles = async (req: Request, res: Response) => {
   }
 };
 
-
-export const updateArticle = async (req: Request, res: Response) => {
+export const updateArticle = async (req: MulterRequest, res: Response) => {
   try {
     const { title, description, category, tags }: UpdateArticleBody = req.body;
     const articleId = req.params.id;
@@ -78,12 +77,12 @@ export const updateArticle = async (req: Request, res: Response) => {
     // Process tags
     const tagsArray = Array.isArray(tags) ? tags : tags.split(',').map((tag: string) => tag.trim());
 
-    // Handle image (store single image or keep the original if none is uploaded)
+    // Handle image (store new image if uploaded, otherwise keep the old one)
     let image = article.images; // Default to existing image if no new one is uploaded
 
-    if (req.files && Array.isArray(req.files) && req.files.length > 0) {
-      // If new image uploaded, take the first one
-      image = `/uploads/${req.files[0].filename}`;
+    if (req.file) {
+      // If a new image is uploaded, use the new image path
+      image = path.basename(req.file.path);
     }
 
     // Update article fields only if new data is provided
@@ -91,7 +90,7 @@ export const updateArticle = async (req: Request, res: Response) => {
     article.description = description ?? article.description;
     article.category = category ?? article.category;
     article.tags = tagsArray.length > 0 ? tagsArray : article.tags;
-    article.images = image; // Only store one image path
+    article.images = image; // Store the image path (single image)
 
     await article.save();
     res.json(article);

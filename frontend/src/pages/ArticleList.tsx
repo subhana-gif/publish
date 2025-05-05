@@ -56,7 +56,7 @@ export default function UserDashboard() {
     description: "",
     category: "",
     tags: "",
-    images: [] as string[],
+    images: "",
   });
   const [uploadFiles, setUploadFiles] = useState<File[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -139,7 +139,7 @@ export default function UserDashboard() {
       description: article.description,
       category: article.category,
       tags: article.tags.join(", "),
-      images: [article.images],
+      images: article.images,
     });
     setIsEditing(true);
     setUploadFiles([]);
@@ -169,7 +169,7 @@ export default function UserDashboard() {
     const previewUrl = URL.createObjectURL(file);
     setFormData(prev => ({
       ...prev,
-      images: [previewUrl],
+      images: previewUrl,
     }));
   };
     
@@ -191,7 +191,7 @@ export default function UserDashboard() {
       
       // Append new files
       if (uploadFiles.length > 0) {
-        formDataForUpdate.append('images', uploadFiles[0]); // Only send the first image
+        formDataForUpdate.append('image', uploadFiles[0]); // Only send the first image
       }
             
       // Make the request
@@ -203,11 +203,9 @@ export default function UserDashboard() {
       ));
       
       // Clean up and reset
-      formData.images.forEach(img => {
-        if (img.startsWith('blob:')) {
-          URL.revokeObjectURL(img);
-        }
-      });
+      if (formData.images.startsWith('blob:')) {
+        URL.revokeObjectURL(formData.images);
+      }
       
       setIsEditing(false);
       setCurrentArticle(null);
@@ -217,7 +215,7 @@ export default function UserDashboard() {
         description: "",
         category: "",
         tags: "",
-        images: [],
+        images: "",
       });
     } catch (err: any) {
       console.error("Error updating article:", err);
@@ -397,7 +395,7 @@ export default function UserDashboard() {
                   
                   {formData.images.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-2">
-                      {formData.images.map((image, index) => (
+                      {[formData.images].map((image, index) => (
                         <div key={index} className="relative">
                           <img 
                             src={getImageSrc(image)} 
@@ -410,7 +408,7 @@ export default function UserDashboard() {
                             onClick={() => {
                               setFormData(prev => ({
                                 ...prev,
-                                images: prev.images.filter((_, i) => i !== index)
+                                images: ""
                               }));
                             }}
                           >
@@ -429,11 +427,9 @@ export default function UserDashboard() {
                       setIsEditing(false);
                       setCurrentArticle(null);
                       setUploadFiles([]);
-                      formData.images.forEach(img => {
-                        if (img.startsWith('blob:')) {
-                          URL.revokeObjectURL(img);
-                        }
-                      });
+                      if (formData.images.startsWith('blob:')) {
+URL.revokeObjectURL(formData.images);
+                      }
                     }}
                     className="px-4 py-2 bg-gray-200 text-gray-800 rounded"
                   >
