@@ -36,7 +36,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     
     // Handle profile image (assuming multer middleware sets req.file)
-    const profileImagePath = req.file ? req.file.path : null;
+    const profileImagePath = req.file ? `/uploads/${req.file.filename}`:null;
 
     // Create user
     const newUser = new User({
