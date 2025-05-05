@@ -340,7 +340,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
       <div className="md:flex-shrink-0 md:w-2/5 relative">
         {articles[0].images && articles[0].images.length > 0 ? (
           <img 
-            src={`http://localhost:5000/uploads/${articles[0].images[0]}`} 
+            src={`https://publish-read.duckdns.org/uploads/${articles[0].images[0]}`} 
             alt={articles[0].title}
             className="h-56 w-full object-cover md:h-full"
           />
@@ -464,7 +464,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
               {article.images && article.images.length > 0 ? (
                 <div className="h-40 overflow-hidden">
                   <img 
-                    src={`http://localhost:5000/uploads/${article.images[0]}`} 
+                    src={`https://publish-read.duckdns.org/uploads/${article.images[0]}`} 
                     alt={article.title}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
@@ -559,7 +559,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
             <div className="overflow-y-auto flex-grow">
               {selectedArticle.images && selectedArticle.images.length > 0 && (
                 <img 
-                  src={`http://localhost:5000/uploads/${selectedArticle.images[0]}`} 
+                  src={`https://publish-read.duckdns.org/uploads/${selectedArticle.images[0]}`} 
                   alt={selectedArticle.title}
                   className="w-full h-64 object-cover"
                 />
