@@ -24,12 +24,12 @@ const articleSchema = new Schema<IArticle>({
   description: { type: String, required: true },
   category: { type: String, required: true },
   tags: { type: [String], required: true },
-  images: { type: String, default: '' },
+  images: { type: String, default: '' },  // Change back to a single string
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
   blockedBy: { type: [Schema.Types.ObjectId], default: [] }
 }, {
-  timestamps: true  // 👈 This adds createdAt and updatedAt fields
+  timestamps: true
 });
 
 const Article = model<IArticle>('Article', articleSchema,'articles');

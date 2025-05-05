@@ -18,7 +18,7 @@ export const createArticle = async (req: MulterRequest, res: Response) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const imagePaths = req.files ? req.files.map(file => path.basename(file.path)) : [];
+  const imagePath = req.files && req.files[0] ? path.basename(req.files[0].path) : '';  // Only the first image
 
   try {
     const newArticle = new Article({
@@ -27,7 +27,7 @@ export const createArticle = async (req: MulterRequest, res: Response) => {
       description,
       category,
       tags: typeof tags === 'string' ? JSON.parse(tags) : tags,
-      images: imagePaths,
+      images: imagePath,  // Now just a single image path
     });
 
     await newArticle.save();
