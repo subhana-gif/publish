@@ -28,7 +28,7 @@ interface Article {
   description: string;
   category: string;
   tags: string[];
-  images: string[];
+  images: string; // Changed from string[] to string
   likes: number;
   dislikes: number;
   blockedBy: string[];
@@ -139,7 +139,7 @@ export default function UserDashboard() {
       description: article.description,
       category: article.category,
       tags: article.tags.join(", "),
-      images: article.images,
+      images: [article.images],
     });
     setIsEditing(true);
     setUploadFiles([]);
@@ -155,23 +155,21 @@ export default function UserDashboard() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-  
-    const validFiles = Array.from(files).filter(file => {
-      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      const maxSize = 5 * 1024 * 1024;
-      return validTypes.includes(file.type) && file.size <= maxSize;
-    });
-  
-    if (validFiles.length !== files.length) {
+
+    const file = files[0];
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const maxSize = 5 * 1024 * 1024;
+
+    if (!validTypes.includes(file.type) || file.size > maxSize) {
       setError('Only JPG, PNG, or GIF images under 5MB are allowed');
       return;
     }
-  
-    setUploadFiles(validFiles);
-    const previewUrls = validFiles.map(file => URL.createObjectURL(file));
+
+    setUploadFiles([file]);
+    const previewUrl = URL.createObjectURL(file);
     setFormData(prev => ({
       ...prev,
-      images: [...prev.images, ...previewUrls],
+      images: [previewUrl],
     }));
   };
     
@@ -504,7 +502,7 @@ export default function UserDashboard() {
                       
                       {article.images.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-2">
-                          {article.images.map((image, index) => (
+                          {[article.images].flat().map((image, index) => (
                             <img 
                               key={index} 
                               src={getImageSrc(image)} 
