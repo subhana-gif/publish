@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Settings, LogOut, Search } from 'lucide-react';
+import { Plus, Settings, LogOut, Search, FileText } from 'lucide-react';
 import ArticlesPage from '../components/ArticleCard';
 
 const Dashboard: React.FC = () => {
@@ -12,6 +12,10 @@ const Dashboard: React.FC = () => {
 
   const handleCreateArticle = () => {
     navigateTo('/createArticle');
+  };
+
+  const handleManageArticles = () => {
+    navigateTo('/articlelist');
   };
 
   const handleSettings = () => {
@@ -31,10 +35,6 @@ const Dashboard: React.FC = () => {
 
 
   // Sample categories for the secondary navigation
-  const categories = [
-    "Technology", "Business", "Science", "Health", 
-    "Politics", "Entertainment", "Sports", "Education"
-  ];
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -60,6 +60,13 @@ const Dashboard: React.FC = () => {
               title="Create New Article"
             >
               <Plus size={20} />
+            </button>
+            <button
+              onClick={handleManageArticles}
+              className="bg-gray-700 text-white p-2 rounded-full hover:bg-gray-600 transition-colors"
+              title="Manage My Articles"
+            >
+              <FileText size={20} />
             </button>
             <button
               onClick={handleSettings}

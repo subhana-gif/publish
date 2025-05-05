@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ThumbsUp, ThumbsDown, Share2, X, Calendar, Eye, ArrowRight, Tag } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, X, Calendar, ArrowRight, Tag } from 'lucide-react';
 import React from 'react';
 import ConfirmationModal from './confirmmodal';
 
@@ -36,7 +36,6 @@ export default function ArticlesPage({ searchQuery }: ArticlesPageProps) {
   const [error, setError] = useState('');
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [activeCategory, setActiveCategory] = useState('All');
   
 
   useEffect(() => {
@@ -285,25 +284,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
     setSelectedArticle(null);
   };
   
-  const handleShareArticle = (articleId: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    // Generate a shareable link
-    const shareableLink = `http://yourdomain.com/articles/${articleId}`;
-    
-    // Copy to clipboard
-    navigator.clipboard.writeText(shareableLink)
-      .then(() => {
-        alert("Shareable link copied to clipboard!");
-      })
-      .catch(err => {
-        console.error('Failed to copy link: ', err);
-      });
-  };
   
-  const filterByCategory = (category: string) => {
-    setActiveCategory(category);
-    console.log(`Filter by category: ${category}`);
-  };
   
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'Recent';
@@ -414,7 +395,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
             <div className="flex items-center">
             {articles[0].author?.profileImage ? (
     <img 
-      src={articles[0].author.profileImage} 
+      src={articles[0].author.profileImage && `http://localhost:5000${articles[0].author.profileImage}`} 
       alt="Author" 
       className="h-8 w-8 rounded-full mr-3 object-cover" 
     />
@@ -454,16 +435,6 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
                 <ThumbsDown size={16} className="mr-1.5" />
                 <span className="text-xs font-medium">{articles[0].dislikes}</span>
               </button>              
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleShareArticle(articles[0]._id, e);
-                }}
-                className="text-gray-500 hover:text-blue-600 transition-colors"
-                title="Share article"
-              >
-                <Share2 size={16} />
-              </button>
               <button 
                 onClick={(e) => {
                   e.stopPropagation();
@@ -548,13 +519,6 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
   </button>
 </div>                  
                   <div className="flex space-x-2">
-                    <button 
-                      onClick={(e) => handleShareArticle(article._id, e)}
-                      className="text-gray-500 hover:text-blue-600 transition-colors"
-                      title="Copy shareable link"
-                    >
-                      <Share2 size={14} />
-                    </button>
                     
                     <button 
                       onClick={(e) => handleBlock(article._id, e)}
@@ -618,7 +582,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
                 <div className="flex items-center mb-4 pb-3 border-b border-gray-200">
                 {articles[0].author?.profileImage ? (
     <img 
-      src={articles[0].author.profileImage} 
+      src={articles[0].author.profileImage && `http://localhost:5000${articles[0].author.profileImage}`} 
       alt="Author" 
       className="h-8 w-8 rounded-full mr-3 object-cover" 
     />
@@ -680,16 +644,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
     <span>{selectedArticle.dislikes}</span>
   </button>
 </div>                  
-                  <div className="flex gap-3">
-                    <button 
-                      onClick={() => handleShareArticle(selectedArticle._id)}
-                      className="flex items-center justify-center bg-white border border-gray-200 rounded-md px-3 py-1 hover:bg-blue-50 hover:border-blue-200 transition-colors"
-                      title="Copy shareable link"
-                    >
-                      <Share2 size={16} className="mr-2 text-blue-600" />
-                      <span>Share</span>
-                    </button>
-                    
+                  <div className="flex gap-3">                    
                     <button 
                       onClick={() => handleBlock(selectedArticle._id)}
                       className="flex items-center text-gray-500 hover:text-red-500"

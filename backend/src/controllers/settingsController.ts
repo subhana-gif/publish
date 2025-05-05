@@ -72,11 +72,11 @@ export const updatePersonalInfo = async (req: Request, res: Response) => {
         dob: dob ? new Date(dob) : currentUser.dob
       };
   
-      // If a file was uploaded, add it to the update data
       if (req.file) {
-        updateData.profileImage = req.file.path; // or whatever field name you use in your model
+        const relativePath = `/uploads/${req.file.filename}`;
+        updateData.profileImage = relativePath;
       }
-  
+        
       const updatedUser = await User.findByIdAndUpdate(
         req.user.id,
         updateData,

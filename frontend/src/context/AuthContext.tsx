@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, _password: string) => {
     // In a real app, you would make an API call here
     // For demo purposes, we'll simulate a successful login
     const mockUser = {
@@ -47,9 +47,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('user', JSON.stringify(mockUser));
   };
 
-  const signup = async (name: string, email: string, password: string, preferences: string[]) => {
-    // In a real app, you would make an API call here
-    // For demo purposes, we'll simulate a successful signup
+  const signup = async (name: string, email: string, _password: string, preferences: string[]) => {
     const mockUser = {
       id: '123',
       name: name,

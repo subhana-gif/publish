@@ -6,7 +6,7 @@ interface IArticle extends Document {
   description: string;
   category: string;
   tags: string[];
-  images: string[];
+  images: string;
   likes: number;
   dislikes: number;
   blockedBy: Types.ObjectId[]; // Also changed to Types.ObjectId
@@ -24,7 +24,7 @@ const articleSchema = new Schema<IArticle>({
   description: { type: String, required: true },
   category: { type: String, required: true },
   tags: { type: [String], required: true },
-  images: { type: [String], default: [] },
+  images: { type: String, default: '' },
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
   blockedBy: { type: [Schema.Types.ObjectId], default: [] }

@@ -18,23 +18,7 @@ interface UserData {
   preferences: string[];
 }
 
-interface FormInputs {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  dob: string;
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-  preferences: string[];
-}
 
-interface PasswordChangeInputs {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
 
 const availablePreferences = [
   'Entertainment',
@@ -58,7 +42,6 @@ const Settings = () => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [formSubmitting, setFormSubmitting] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [imageUploading, setImageUploading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -115,7 +98,6 @@ const Settings = () => {
         setLoading(false);
       }
     };
-  
     fetchUserData();
   }, []);
 
@@ -339,6 +321,7 @@ const Settings = () => {
     }
   };
 
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-white">
@@ -435,23 +418,16 @@ const Settings = () => {
           {/* Personal Information Form */}
           {activeTab === 'personal' && (
             <form onSubmit={handlePersonalSubmit} className="space-y-6">
-<div className="flex items-center space-x-6">
-  <div className="shrink-0">
-    {imagePreview || userData?.profileImage ? (
-      <img 
-        className="h-20 w-20 object-cover rounded-full border-2 border-gray-300"
-        src={imagePreview || userData?.profileImage} 
-        alt="" // Empty alt text to ensure nothing shows
-      />
-    ) : (
-      <div 
-        className="h-20 w-20 flex items-center justify-center rounded-full border-2 border-gray-300 bg-gray-400 text-white text-2xl font-bold"
-      >
-        {(userData?.firstName?.charAt(0) || userData?.lastName?.charAt(0) || 'U').toUpperCase()}
+                  <div className="flex items-center space-x-6">
+      <div className="shrink-0">
+        <img 
+          className="h-20 w-20 object-cover rounded-full border-2 border-gray-300"
+          src={imagePreview || 
+            (userData?.profileImage && `http://localhost:5000${userData.profileImage}`)  || '/default-profile.png'} 
+          alt="Current profile"
+        />
       </div>
-    )}
-  </div>
-    <div className="space-y-2">
+      <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-900">
           Change profile photo
         </label>

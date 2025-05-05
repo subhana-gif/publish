@@ -1,11 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { createArticle, getFilteredArticles, likeArticle,dislikeArticle,blockArticle,removeLike,removeDislike, searchArticles } from '../controllers/articleController';
+import { createArticle, getFilteredArticles, likeArticle,dislikeArticle,
+    getUserArticles,updateArticle,deleteArticle, blockArticle,uploadImages,removeLike,removeDislike, searchArticles } from '../controllers/articleController';
 import verifyToken from '../middleware/auth';
 import upload from '../middleware/uploads';
 
 const router = express.Router();
 
-router.post('/create', upload.array('images'),verifyToken, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/create', upload.single('images'),verifyToken, async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Type assertion to handle Multer request type
             const multerRequest = req as Request & { files: Express.Multer.File[] };
@@ -14,6 +15,7 @@ router.post('/create', upload.array('images'),verifyToken, async (req: Request, 
         next(error);
     }
 });
+
 
 router.get('/articles', verifyToken, async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -71,6 +73,32 @@ router.post('/:id/removedislike', verifyToken, async (req: Request, res: Respons
 router.get('/search', verifyToken, async (req: Request, res: Response, next: NextFunction) => {
     try {
         await searchArticles(req, res);
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/user', verifyToken, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await getUserArticles(req, res);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Update an article
+router.put('/:id/update', verifyToken, upload.single('images'), async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await updateArticle(req, res);
+    } catch (error) {
+        next(error);
+    }
+});
+
+// Delete an article
+router.delete('/:id/delete', verifyToken, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await deleteArticle(req, res);
     } catch (error) {
         next(error);
     }

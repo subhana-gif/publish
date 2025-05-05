@@ -2,16 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-// Article types
-interface Article {
-  id?: string;
-  author: string;
-  title: string;
-  description: string;
-  category: string;
-  tags: string[];
-  images: string[];
-}
 
 interface Category {
   id: string;

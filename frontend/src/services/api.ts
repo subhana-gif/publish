@@ -58,14 +58,12 @@ export const updatePersonalInfo = async (data: {
     if (data.profileImage) {
       formData.append('profileImage', data.profileImage);
     }
-    console.log('hit')
     const response = await api.patch('/settings/personal', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
-    console.log("response:",response)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -166,4 +164,57 @@ export const registerUser = async (formData: FormData) => {
   return response.data;
 };
 
+export const getUserDashboardData = async () => {
+  try {
+    const response = await api.get('/dashboard');
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message || error.response.data.error);
+    } else {
+      throw new Error(error.message || 'Failed to fetch dashboard data');
+    }
+  }
+};
 
+export const getUserArticlesWithStats = async () => {
+  try {
+    const response = await api.get('/articles/user/stats');
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message || error.response.data.error);
+    } else {
+      throw new Error(error.message || 'Failed to fetch articles with stats');
+    }
+  }
+};
+
+// Update the existing getUserArticles function to include more details
+export const getUserArticles = async () => {
+  try {
+    const response = await api.get('/articles/user');
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message || error.response.data.error);
+    } else {
+      throw new Error(error.message || 'Failed to fetch user articles');
+    }
+  }
+};
+
+export const deleteArticle = async (articleId: string) => {
+  const response = await api.delete(`/articles/${articleId}/delete`);
+  return response.data;
+};
+
+export const updateArticle = async (articleId: string, formData: FormData) => {
+  const response = await api.put(`/articles/${articleId}/update`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  return response.data;
+};

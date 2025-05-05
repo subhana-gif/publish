@@ -42,7 +42,7 @@ const Login: React.FC = () => {
       if (response.success) {
         navigate('/dashboard');
       } else {
-        setError(response.message || 'Login failed. Please check your credentials.');
+        setError(response.error || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');

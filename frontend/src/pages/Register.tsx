@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { UserPlus, ArrowRight, Image, Check, X } from 'lucide-react';
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/api';
 
@@ -17,35 +16,37 @@ const MultiStepRegister = () => {
     password: '',
     confirmPassword: '',
     profileImage: null,
-    preferences: [],
+    preferences: [] as string[],
   });
   const [errors, setErrors] = useState({});
-  const [profileImagePreview, setProfileImagePreview] = useState(null);
+  // Update the state type
+  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(null);
+
   const [registrationComplete, setRegistrationComplete] = useState(false);
   const navigate = useNavigate();
 
   const validateStep1 = () => {
     const newErrors = {};
     
-    if (!form.firstName) newErrors.firstName = 'First name is required';
-    if (!form.lastName) newErrors.lastName = 'Last name is required';
-    if (!form.email) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Email is invalid';
-    if (!form.phone) newErrors.phone = 'Phone number is required';
-    if (!form.dob) newErrors.dob = 'Date of birth is required';
-    if (!form.password) newErrors.password = 'Password is required';
-    else if (form.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
-    if (form.password !== form.confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+    if (!form.firstName) (newErrors as any).firstName = 'First name is required';
+    if (!form.lastName) (newErrors as any).lastName = 'Last name is required';
+    if (!form.email) (newErrors as any).email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(form.email)) (newErrors as any).email = 'Email is invalid';
+    if (!form.phone) (newErrors as any).phone = 'Phone number is required';
+    if (!form.dob) (newErrors as any).dob = 'Date of birth is required';
+    if (!form.password) (newErrors as any).password = 'Password is required';
+    else if (form.password.length < 6) (newErrors as any).password = 'Password must be at least 6 characters';
+    if (form.password !== form.confirmPassword) (newErrors as any).confirmPassword = 'Passwords do not match';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: { target: { files: any[]; }; }) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setForm({ ...form, profileImage: file });
@@ -53,7 +54,7 @@ const MultiStepRegister = () => {
       // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfileImagePreview(reader.result);
+        setProfileImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -74,9 +75,9 @@ const MultiStepRegister = () => {
     setProfileImagePreview(null);
   };
 
-  const togglePreference = (preference) => {
+  const togglePreference = (preference: string) => {
     setForm((prevForm) => {
-      const updated = prevForm.preferences.includes(preference)
+      const updated = prevForm.preferences.includes(preference as never)
         ? prevForm.preferences.filter((pref) => pref !== preference)
         : [...prevForm.preferences, preference];
       return { ...prevForm, preferences: updated };
@@ -115,8 +116,8 @@ const MultiStepRegister = () => {
       const result = await registerUser(formData); // ✅ Now valid
       console.log('Registration successful', result);
       setRegistrationComplete(true);
-    } catch (err) {
-      console.error('Registration error:', err.message);
+    } catch (err: unknown) {
+      console.error('Registration error:', err instanceof Error ? err.message : 'Unknown error');
     }
   };
   
@@ -156,9 +157,9 @@ const MultiStepRegister = () => {
                   placeholder="First Name *" 
                   value={form.firstName} 
                   onChange={handleChange} 
-                  className={`w-full p-3 border ${errors.firstName ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`} 
+                  className={`w-full p-3 border ${(errors as { firstName?: string }).firstName ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`}
                 />
-                {errors.firstName && <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>}
+                {(errors as { firstName?: string }).firstName && <p className="text-red-600 text-sm mt-1">{(errors as { firstName?: string }).firstName}</p>}
               </div>
               <div>
                 <input 
@@ -167,9 +168,9 @@ const MultiStepRegister = () => {
                   placeholder="Last Name *" 
                   value={form.lastName} 
                   onChange={handleChange} 
-                  className={`w-full p-3 border ${errors.lastName ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`} 
+                  className={`w-full p-3 border ${(errors as { lastName?: string }).lastName ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`}
                 />
-                {errors.lastName && <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>}
+                {(errors as { lastName?: string }).lastName && <p className="text-red-600 text-sm mt-1">{(errors as { lastName?: string }).lastName}</p>}
               </div>
             </div>
             
@@ -180,9 +181,9 @@ const MultiStepRegister = () => {
                 placeholder="Email *" 
                 value={form.email} 
                 onChange={handleChange} 
-                className={`w-full p-3 border ${errors.email ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`} 
+                className={`w-full p-3 border ${(errors as { email?: string }).email ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`}
               />
-              {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+              {(errors as { email?: string }).email && <p className="text-red-600 text-sm mt-1">{(errors as { email?: string }).email}</p>}
             </div>
             
             <div>
@@ -192,9 +193,9 @@ const MultiStepRegister = () => {
                 placeholder="Phone Number *" 
                 value={form.phone} 
                 onChange={handleChange} 
-                className={`w-full p-3 border ${errors.phone ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`} 
+                className={`w-full p-3 border ${(errors as { phone?: string }).phone ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`}
               />
-              {errors.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
+              {(errors as { phone?: string }).phone && <p className="text-red-600 text-sm mt-1">{(errors as { phone?: string }).phone}</p>}
             </div>
             
             <div>
@@ -204,9 +205,9 @@ const MultiStepRegister = () => {
                 placeholder="Date of Birth *" 
                 value={form.dob} 
                 onChange={handleChange} 
-                className={`w-full p-3 border ${errors.dob ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`} 
+                className={`w-full p-3 border ${(errors as { dob?: string }).dob ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`}
               />
-              {errors.dob && <p className="text-red-600 text-sm mt-1">{errors.dob}</p>}
+              {(errors as { dob?: string }).dob && <p className="text-red-600 text-sm mt-1">{(errors as { dob?: string }).dob}</p>}
             </div>
             
             <div>
@@ -216,9 +217,9 @@ const MultiStepRegister = () => {
                 placeholder="Password *" 
                 value={form.password} 
                 onChange={handleChange} 
-                className={`w-full p-3 border ${errors.password ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`} 
+                className={`w-full p-3 border ${(errors as { password?: string }).password ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`}
               />
-              {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
+              {(errors as { password?: string }).password && <p className="text-red-600 text-sm mt-1">{(errors as { password?: string }).password}</p>}
             </div>
             
             <div>
@@ -228,9 +229,9 @@ const MultiStepRegister = () => {
                 placeholder="Confirm Password *" 
                 value={form.confirmPassword} 
                 onChange={handleChange} 
-                className={`w-full p-3 border ${errors.confirmPassword ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`} 
+                className={`w-full p-3 border ${(errors as { confirmPassword?: string }).confirmPassword ? 'border-red-600' : 'border-gray-300'} rounded-md bg-white`}
               />
-              {errors.confirmPassword && <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>}
+              {(errors as { confirmPassword?: string }).confirmPassword && <p className="text-red-600 text-sm mt-1">{(errors as { confirmPassword?: string }).confirmPassword}</p>}
             </div>
             
             <div className="flex justify-end">
@@ -273,7 +274,11 @@ const MultiStepRegister = () => {
                     type="file" 
                     accept="image/*" 
                     className="hidden" 
-                    onChange={handleImageChange} 
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      if (e.target.files) {
+                        handleImageChange({ target: { files: Array.from(e.target.files) } });
+                      }
+                    }}
                   />
                 </label>
               </div>
@@ -312,15 +317,15 @@ const MultiStepRegister = () => {
                   key={pref} 
                   onClick={() => togglePreference(pref)}
                   className={`flex items-center p-4 border rounded-md cursor-pointer transition-colors ${
-                    form.preferences.includes(pref) 
+form.preferences.includes(pref as never)
                       ? 'border-red-600 bg-red-50' 
                       : 'border-gray-300 hover:bg-gray-50'
                   }`}
                 >
                   <div className={`w-5 h-5 rounded flex items-center justify-center mr-3 ${
-                    form.preferences.includes(pref) ? 'bg-red-600' : 'border border-gray-400'
+form.preferences.includes(pref as never) ? 'bg-red-600' : 'border border-gray-400'
                   }`}>
-                    {form.preferences.includes(pref) && <Check size={14} className="text-white" />}
+                    {form.preferences.includes(pref as never) && <Check size={14} className="text-white" />}
                   </div>
                   <span className="text-gray-900">{pref}</span>
                 </div>
