@@ -91,11 +91,10 @@ const removeImage = (index: number) => {
       formData.append('category', categories.find((cat) => cat.id === selectedCategory)?.name || '');
       formData.append('tags', JSON.stringify(selectedTags)); // send as stringified array
   
-      images.forEach((image) => {
-        formData.append('image', image); // key must match your multer config
-      });
-  
-      const token = localStorage.getItem('token');
+      if (images[0]) {
+        formData.append('image', images[0]); // only send the first one
+      }
+        const token = localStorage.getItem('token');
   
       const response = await axios.post(
         'https://publish-read.duckdns.org/api/articles/create',
@@ -284,7 +283,6 @@ const removeImage = (index: number) => {
                     id="fileInput"
                     type="file"
                     onChange={handleImageChange}
-                    multiple
                     accept="image/*"
                     className="hidden"
                   />
