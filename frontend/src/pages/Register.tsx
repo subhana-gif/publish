@@ -323,23 +323,23 @@ const MultiStepRegister = () => {
               <p className="text-gray-600 mb-4">Select topics you're interested in:</p>
               
               {preferencesList.map((pref) => (
-                <div 
-                  key={pref} 
-                  onClick={() => togglePreference(pref)}
-                  className={`flex items-center p-4 border rounded-md cursor-pointer transition-colors ${
-form.preferences.includes(pref as never)
-                      ? 'border-red-600 bg-red-50' 
-                      : 'border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  <div className={`w-5 h-5 rounded flex items-center justify-center mr-3 ${
-form.preferences.includes(pref as never) ? 'bg-red-600' : 'border border-gray-400'
-                  }`}>
-                    {form.preferences.includes(pref as never) && <Check size={14} className="text-white" />}
-                  </div>
-                  <span className="text-gray-900">{pref}</span>
-                </div>
-              ))}
+  <div 
+    key={pref} 
+    onClick={() => togglePreference(pref)}
+    className={`flex items-center p-4 border rounded-md cursor-pointer transition-colors ${
+      form.preferences.includes(pref as never)
+        ? 'border-red-600 bg-red-50' 
+        : 'border-gray-300 hover:bg-gray-50'
+    }`}
+  >
+    <div className={`w-5 h-5 rounded flex items-center justify-center mr-3 ${
+      form.preferences.includes(pref as never) ? 'bg-red-600' : 'border border-gray-400'
+    }`}>
+      {form.preferences.includes(pref as never) && <Check size={14} className="text-white" />}
+    </div>
+    <span className="text-gray-900">{pref}</span>
+  </div>
+))}
               
               <p className="text-sm text-gray-500 mt-4">
                 You can skip this step if you don't want to select any preferences now.

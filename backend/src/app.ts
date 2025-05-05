@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes';
 import articleRoutes from './routes/articleRoutes';
-import userRoutes from './routes/userRoutes';
 import settings from './routes/settingsRoutes'
 import { connectDB } from './config/db';
 import path from 'path';
@@ -24,7 +23,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use('/api/auth', authRoutes);
 app.use('/api/articles', articleRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/settings',settings)
 
 export default app;

@@ -20,6 +20,10 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'All required fields must be filled' });
     }
 
+    if (preferences && !Array.isArray(preferences)) {
+      return res.status(400).json({ message: 'Preferences must be an array' });
+    }
+
     // Check if user already exists
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
