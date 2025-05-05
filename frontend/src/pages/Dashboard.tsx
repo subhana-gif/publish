@@ -46,11 +46,6 @@ const Dashboard: React.FC = () => {
               <span className="text-red-500">P</span>ublish
             </h1>
             <nav className="hidden md:flex">
-              <ul className="flex space-x-8">
-                <li className="font-medium hover:text-red-400 cursor-pointer">HOME</li>
-                <li className="font-medium hover:text-red-400 cursor-pointer">CONTACT</li>
-                <li className="font-medium hover:text-red-400 cursor-pointer">ABOUT</li>
-              </ul>
             </nav>
           </div>
           <div className="flex items-center space-x-3">
