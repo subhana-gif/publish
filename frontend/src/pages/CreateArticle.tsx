@@ -92,7 +92,7 @@ const removeImage = (index: number) => {
       formData.append('tags', JSON.stringify(selectedTags)); // send as stringified array
   
       images.forEach((image) => {
-        formData.append('images', image); // key must match your multer config
+        formData.append('image', image); // key must match your multer config
       });
   
       const token = localStorage.getItem('token');
