@@ -3,7 +3,16 @@ import { UserPlus, ArrowRight, Image, Check, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/api';
 
-const preferencesList = ['Technology', 'Health', 'Politics', 'Sports', 'Entertainment'];
+const preferencesList = ['Entertainment',
+  'Sports',
+  'Technology',
+  'Science',
+  'Politics',
+  'Business',
+  'Health',
+  'Travel',
+  'Food',
+  'Fashion'];
 
 const MultiStepRegister = () => {
   const [step, setStep] = useState(1);

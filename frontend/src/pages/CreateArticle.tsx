@@ -22,13 +22,17 @@ const CreateArticle: React.FC = () => {
   const [images, setImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
-  // Mock categories - replace with actual data from your API
   const categories: Category[] = [
     { id: '1', name: 'Technology' },
     { id: '2', name: 'Business' },
     { id: '3', name: 'Health' },
     { id: '4', name: 'Science' },
-    { id: '5', name: 'Arts' }
+    { id: '5', name: 'Fashion' },
+    { id: '6', name: 'Food' },
+    { id: '7', name: 'Politics' },
+    { id: '8', name: 'Sports' },
+    { id: '9', name: 'Entertainment' },
+    { id: '10', name: 'Science' }
   ];
 
 // In your handleImageChange function:

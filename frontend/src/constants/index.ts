@@ -1,17 +1,15 @@
 
 export const categories: string[] = [
-  'Technology',
-  'Science',
-  'Health',
-  'Business',
   'Entertainment',
   'Sports',
+  'Technology',
+  'Science',
   'Politics',
-  'Education',
+  'Business',
+  'Health',
   'Travel',
   'Food',
-  'Lifestyle',
-  'Other'
+  'Fashion'
 ];
 
 export default categories;
