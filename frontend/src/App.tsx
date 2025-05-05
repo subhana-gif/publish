@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import  CreateArticle  from './pages/CreateArticle'
 import Settings from './pages/Settings'
 import ArticleList from './pages/ArticleList'
+import PrivateRoute from './components/Protect'
 
 const App: React.FC = () => {
   return (
@@ -14,10 +15,30 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/Register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/createArticle" element={<CreateArticle />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/articlelist" element={<ArticleList />} />
+
+<Route path="/dashboard" element={
+  <PrivateRoute>
+    <Dashboard />
+  </PrivateRoute>
+} />
+
+<Route path="/createArticle" element={
+  <PrivateRoute>
+    <CreateArticle />
+  </PrivateRoute>
+} />
+
+<Route path="/settings" element={
+  <PrivateRoute>
+    <Settings />
+  </PrivateRoute>
+} />
+
+<Route path="/articlelist" element={
+  <PrivateRoute>
+    <ArticleList />
+  </PrivateRoute>
+} />
       </Routes>
     </div>
   )
