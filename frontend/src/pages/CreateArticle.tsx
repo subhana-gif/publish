@@ -32,12 +32,12 @@ const CreateArticle: React.FC = () => {
     { id: '7', name: 'Politics' },
     { id: '8', name: 'Sports' },
     { id: '9', name: 'Entertainment' },
-    { id: '10', name: 'Science' }
+    { id: '10', name: 'Travel' }
   ];
 
 // In your handleImageChange function:
 const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files[0]) { // Only take the first file
+  if (e.target.files && e.target.files[0]) { 
     const file = e.target.files[0];
     setImages([file]);
     setImageUrls([URL.createObjectURL(file)]);
