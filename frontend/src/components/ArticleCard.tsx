@@ -44,9 +44,9 @@ export default function ArticlesPage({ searchQuery }: ArticlesPageProps) {
         setLoading(true);
         const token = localStorage.getItem('token');
         
-        let url = 'https://publish-read.duckdns.org/articles/articles';
+        let url = 'https://publish-read.duckdns.org/api/articles/articles';
         if (searchQuery) {
-          url = `https://publish-read.duckdns.org/articles/search?query=${encodeURIComponent(searchQuery)}`;
+          url = `https://publish-read.duckdns.org/api/articles/search?query=${encodeURIComponent(searchQuery)}`;
         }
   
         const response = await fetch(url, {
@@ -87,7 +87,7 @@ const handleLike = async (articleId: string, e?: React.MouseEvent) => {
     
     // If previously disliked, remove the dislike first
     if (previousInteraction === 'dislike') {
-      await fetch(`https://publish-read.duckdns.org/articles/${articleId}/removedislike`, {
+      await fetch(`https://publish-read.duckdns.org/api/articles/${articleId}/removedislike`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ const handleLike = async (articleId: string, e?: React.MouseEvent) => {
     // Toggle like state
     if (previousInteraction !== 'like') {
       // Add like
-      await fetch(`https://publish-read.duckdns.org/articles/${articleId}/like`, {
+      await fetch(`https://publish-read.duckdns.org/api/articles/${articleId}/like`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@ const handleLike = async (articleId: string, e?: React.MouseEvent) => {
       }
     } else {
       // Remove like
-      await fetch(`https://publish-read.duckdns.org/articles/${articleId}/removelike`, {
+      await fetch(`https://publish-read.duckdns.org/api/articles/${articleId}/removelike`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -169,7 +169,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
     
     // If previously liked, remove the like first
     if (previousInteraction === 'like') {
-      await fetch(`https://publish-read.duckdns.org/articles/${articleId}/removelike`, {
+      await fetch(`https://publish-read.duckdns.org/api/articles/${articleId}/removelike`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -181,7 +181,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
     // Toggle dislike state
     if (previousInteraction !== 'dislike') {
       // Add dislike
-      await fetch(`https://publish-read.duckdns.org/articles/${articleId}/dislike`, {
+      await fetch(`https://publish-read.duckdns.org/api/articles/${articleId}/dislike`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -212,7 +212,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
       }
     } else {
       // Remove dislike
-      await fetch(`https://publish-read.duckdns.org/articles/${articleId}/removedislike`, {
+      await fetch(`https://publish-read.duckdns.org/api/articles/${articleId}/removedislike`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -253,7 +253,7 @@ const handleDislike = async (articleId: string, e?: React.MouseEvent) => {
     const token = localStorage.getItem('token');
   
     try {
-      const response = await fetch(`https://publish-read.duckdns.org/articles/${pendingBlockId}/block`, {
+      const response = await fetch(`https://publish-read.duckdns.org/api/articles/${pendingBlockId}/block`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
