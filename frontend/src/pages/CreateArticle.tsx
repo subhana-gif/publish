@@ -31,20 +31,16 @@ const CreateArticle: React.FC = () => {
     { id: '5', name: 'Arts' }
   ];
 
-  // Handle image selection
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files);
-      setImages([...images, ...fileArray]);
-      
-      // Create preview URLs
-      const newImageUrls = fileArray.map(file => URL.createObjectURL(file));
-      setImageUrls([...imageUrls, ...newImageUrls]);
-    }
-  };
+// In your handleImageChange function:
+const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files[0]) { // Only take the first file
+    const file = e.target.files[0];
+    setImages([file]);
+    setImageUrls([URL.createObjectURL(file)]);
+  }
+};
 
-  // Remove image
-  const removeImage = (index: number) => {
+const removeImage = (index: number) => {
     const newImages = [...images];
     const newImageUrls = [...imageUrls];
     

@@ -6,7 +6,7 @@ import upload from '../middleware/uploads';
 
 const router = express.Router();
 
-router.post('/create', upload.single('images'),verifyToken, async (req: Request, res: Response, next: NextFunction) => {
+router.post('/create', upload.single('image'),verifyToken, async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Type assertion to handle Multer request type
             const multerRequest = req as Request & { files: Express.Multer.File[] };

@@ -18,7 +18,7 @@ export const createArticle = async (req: MulterRequest, res: Response) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const imagePath = req.files && req.files[0] ? path.basename(req.files[0].path) : '';  // Only the first image
+  const imagePath = req.file ? path.basename(req.file.path) : '';
 
   try {
     const newArticle = new Article({
