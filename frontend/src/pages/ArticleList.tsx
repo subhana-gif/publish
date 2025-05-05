@@ -290,7 +290,6 @@ export default function UserDashboard() {
         </h1>
       </div>
 
-      {/* Right-aligned user profile */}
       <div className="flex items-center">
         {user?.profileImage ? (
           <img 
