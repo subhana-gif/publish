@@ -15,11 +15,13 @@ const app = express();
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
+const corsOptions = {
+  origin: 'https://publish-eosin.vercel.app', // Allow frontend domain
+  methods: ['GET', 'POST'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+};
 
+app.use(cors(corsOptions));
 app.use('/api/auth', authRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/users', userRoutes);
